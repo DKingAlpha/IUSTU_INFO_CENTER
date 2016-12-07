@@ -3,3 +3,9 @@
 /toolbox
 /uestc/db/*
 /uestc/faces/*
+
+!/jdb/lib/.gitkeep
+!/sgk/db/.gitkeep
+!/uestc/db/.gitkeep
+!/uestc/faces/.gitkeep
+
