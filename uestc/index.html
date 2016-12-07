@@ -1,0 +1,79 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>UESTC信息查询</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script src="/resources/jquery.js"></script>
+    <script src="/resources/bootstrap/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<div id="stub">
+
+<div class="container" align="center">
+<br/><br/><br/><br/>
+<img src="/uestc/logo.png" class="col-sm-10 col-sm-offset-1"/>
+
+<form role="form"class="form-horizontal" onsubmit="return search()">
+<div class="form-group">
+    <label for="name" class="col-sm-2 control-label">姓名</label>
+    <div class="col-sm-4">
+        <input type="text"  class="form-control" name="name" id="name" placeholder="部分姓名" />
+    </div>
+    <label for="sex" class="col-sm-2 control-label">性别</label>
+    <div class="col-sm-4">
+            <select name="sex" id="sex" class="form-control" >
+                <option value="">不限</option>
+                <option value=1>男</option>
+                <option value=2>女</option>
+            </select>
+    </div>
+</div>
+
+<div class="form-group">
+    <label for="sid" class="col-sm-2 control-label">学号</label>
+    <div class="col-sm-4">
+        <input type="text" class="form-control" id="sid" name="sid" placeholder="部分学号" />
+    </div>
+    <label for="id" class="col-sm-2 control-label">身份证</label>
+    <div class="col-sm-4">
+        <input type="text" class="form-control" id="id" name="id" placeholder="部分身份证号"/>
+    </div>
+</div>
+
+<div class="form-group">
+    <label for="institution" class="col-sm-2 control-label">学院</label>
+    <div class="col-sm-4">
+        <input type="text" class="form-control" id="institution" name="institution" placeholder="学院名包含"/>
+    </div>
+    <label for="major" class="col-sm-2 control-label">专业</label>
+    <div class="col-sm-4">
+        <input type="text" class="form-control" id="major" name="major" placeholder="专业名包含" />
+    </div>
+</div>
+
+<div class="form-group">
+    <label for="location" class="col-sm-2 control-label">户籍</label>
+    <div class="col-sm-10">
+        <input type="text" class="form-control" id="location" name="location" placeholder="省略'省市县区'四字，空格分隔关键字"/>
+    </div>
+
+</div>
+
+
+<div class="form-group">
+    <div class="col-sm-10 col-sm-offset-2">
+        <input type="submit" class="btn-block btn btn-primary"  value="查询" />
+    </div>
+</div>
+</form>
+
+<div id="result">
+
+
+</div>
+</div>
+</div>
+</body>
+</html>
