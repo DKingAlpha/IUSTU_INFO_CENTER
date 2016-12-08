@@ -45,9 +45,17 @@ if($_POST)
     $limit=50;$resnum=0;            // data sum can be filtered out of a single file
     if(!isset($_POST['keywords']))exit();else $keywords=$_POST['keywords'];
     if(!isset($_POST['index']))$fileindex=0;else $fileindex=$_POST['index'];
-    $keyword=[];
+
+    $keyword=[];$tmp=[];
     if($keywords)
         $keyword=explode(" ",$keywords);
+    foreach($keyword as $ki)
+    {
+        if($ki!="")array_push($tmp,$ki);
+    }
+    $keyword=$tmp;
+    unset($tmp);
+    
     if($keyword==[])
     {
         echo 'CODE:NULL';

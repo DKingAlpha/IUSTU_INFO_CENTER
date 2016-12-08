@@ -21,7 +21,6 @@ $blk='<img src="/uestc/'.rtrim($imgurl).'" class="img-rounded col-sm-6" data-tog
 </div>
 ';
 return $blk;
-
 }
 
 function contains($a,$b)
@@ -33,7 +32,6 @@ function contains($a,$b)
         {
             $flag=$flag&&(($i && strstr($a,$i)) || !$i);
         }
-        echo $flag;
         return $flag;
     }
     else
@@ -51,9 +49,9 @@ if($_POST)
     $filterout=0;
     
     $found = false;
-    $tablehtml="";
-    $tablehtml.='<table class="col-sm-10 col-sm-offset-1 table table-hover table-bordered ">';
-    $tablehtml.="<thead><tr><th>姓名</th><th>性别</th><th>学历</th><th>学号</th><th>身份证号</th><th>户籍</th><th>学院</th><th>专业</th><th>图片</th></tr></thead><tbody>";
+
+    echo '<table class="col-sm-offset-1 table table-hover table-bordered">';
+    echo "<thead><tr><th>姓名</th><th>性别</th><th>学历</th><th>学号</th><th>身份证号</th><th>户籍</th><th>学院</th><th>专业</th><th>图片</th></tr></thead><tbody>";
 
     for($i=0; $i<$l&& $filterout<$pagelimit ; $i++)
     {
@@ -66,8 +64,7 @@ if($_POST)
         $major=isset($_POST['major'])?$_POST['major']:false;
         $location=isset($_POST['location'])?$_POST['location']:false;
 
-        
-        
+                
         if(isset($_POST['sex'])){
             if($_POST['sex']==1)
                 $sex="男";
@@ -78,12 +75,18 @@ if($_POST)
         }else{
             $sex=false;
         }
-        $locations="";
+        
+        $locations=[];$tmp=[];
         if($location)
             $locations=explode(" ",$location);
+        foreach($locations as $loci)
+        {
+            if($loci!="")array_push($tmp,$loci);
+        }
+        $locations=$tmp;
+        unset($tmp);
         
-        
-        if(($sid||$id||$sex||$name||$institution||$major||$location)==false)
+        if(($sid||$id||$sex||$name||$institution||$major||$locations)==false)
         {
             echo '
             <div class="col-sm-10 col-sm-offset-2 alert alert-danger" role="alert">
@@ -107,23 +110,23 @@ if($_POST)
         {
             $found=true;
             $filterout++;
-            $tablehtml.="<tr'>";
-            $tablehtml.="<td>$ps[0]</td><td>$ps[1]</td><td>$ps[2]</td><td>$ps[3]</td><td>$ps[4]</td>";
+            echo "<tr>";
+            echo "<td>$ps[0]</td><td>$ps[1]</td><td>$ps[2]</td><td>$ps[3]</td><td>$ps[4]</td>";
             if($ps[5]=="未知")
-                $tablehtml.="<td class='danger'>".$ps[5];
+                echo "<td class='danger'>".$ps[5];
             else
-                $tablehtml.="<td>".$ps[5];
-            $tablehtml.="</td><td>$ps[6]</td>";
+                echo "<td>".$ps[5];
+            echo "</td><td>$ps[6]</td>";
             if(strpos($ps[6],"0")==0)
-                $tablehtml.="<td class='danger'>未知";
+                echo "<td class='danger'>未知";
             else
-                $tablehtml.="<td>".$ps[6];
-            $tablehtml.="</td><td>".imgblock($ps[8])."</td>";
-            $tablehtml.="</tr>";
+                echo "<td>".$ps[6];
+            echo "</td><td>".imgblock($ps[8])."</td>";
+            echo "</tr>";
         }
 
     }
-    $tablehtml.="</tbody></table>";
+    echo "</tbody></table>";
     
     if($found)
     {
@@ -142,7 +145,6 @@ if($_POST)
             </div><br/><br/>
             ';
         }
-    echo $tablehtml;
     }
     else
     {
