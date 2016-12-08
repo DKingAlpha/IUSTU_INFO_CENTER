@@ -149,7 +149,6 @@ if($_POST)
         echo '
         <div class="col-sm-10 col-sm-offset-2 alert alert-danger" role="alert">
             <strong>未找到记录</strong>
-            共有'.$filterout.'条结果
         </div><br/><br/>
         ';
     }

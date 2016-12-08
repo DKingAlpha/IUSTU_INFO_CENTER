@@ -1,11 +1,27 @@
 <?php
-
 $path = './db';
-searchdir($path);
+$filelist=[];
+getfilelist();
 
+function getfilelist()
+{
+    global $filelist;
+    if(file_exists("./db/filelist.txt"))
+    {
+         $filelist=file("./db/filelist.txt");
+         return $filelist;
+    }else
+    {
+        $f=fopen("./db/filelist.txt","w");
+        searchdir("./db");
+        foreach($filelist as $fp)fwrite($f,$fp);
+        fclose($f);
+    }
+}
 
 function searchdir($dir)
 {
+    global $filelist;
 	if(is_dir($dir))
    	{
      	if ($dh = opendir($dir)) 
@@ -13,95 +29,50 @@ function searchdir($dir)
         	while (($file = readdir($dh)) !== false)
 			{
      			if((is_dir($dir."/".$file)) && $file!="." && $file!="..")
-                    searchdir($dir."/".$file."/");
+                    searchdir($dir."/".$file);
 				elseif($file!="." && $file!="..")
-                    searchinfile($dir."/".$file);
+                    array_push($filelist,($dir."/".$file."\n"));
         	}
         	closedir($dh);
      	}
    	}
 }
 
-function searchinfile($file)
-{
 if($_POST)
 {
-    $pagelimit=200;
-    $filterout=0;
-    
+    global $filelist;
     $found = false;
-    $tablehtml="";
-    $tablehtml.='<table class="col-sm-10 col-sm-offset-1 table table-hover table-bordered ">';
-    $tablehtml.="<thead><tr><th>已有记录</th></tr></thead><tbody>";
-
-    $f=file($file);
-    $l=count($f);
-    for($i=0; $i<$l&& $filterout<$pagelimit ; $i++)
+    $limit=50;$resnum=0;            // data sum can be filtered out of a single file
+    if(!isset($_POST['keywords']))exit();else $keywords=$_POST['keywords'];
+    if(!isset($_POST['index']))$fileindex=0;else $fileindex=$_POST['index'];
+    $keyword=[];
+    if($keywords)
+        $keyword=explode(" ",$keywords);
+    if($keyword==[])
     {
-        
-        $ps=explode(" ",preg_replace("/\s\s+/"," ",$f[$i]));
-        
-        if(!isset($_POST['keywords']))exit();
+        echo 'CODE:NULL';
+        exit();
+    }
+    if($fileindex<0||$fileindex>count($filelist)-1){
+        echo "CODE:FAIL";
+        exit();
+    }
+    
+    $fname=trim($filelist[$fileindex]);
+    $f=file($fname);
+    $l=count($f);
 
-        $keyword=[];
-        if($keyword)
-            $keyword=explode(" ",$keywords);
-        
-        
-        if($keyword==[])
-        {
-            echo '
-            <div class="col-sm-10 col-sm-offset-2 alert alert-danger" role="alert">
-                <strong>无搜索条件!</strong>
-                请重新输入
-            </div><br/><br/>
-            ';
-            exit();
-        }
-        
+    for($m=0;$m<$l&&$resnum<$limit;$m++)
+    {
+        $ps=preg_replace("/\s\s+/"," ",$f[$m]);
         foreach ($keyword as $i){
-            if(strpos($_POST['keywords'],$i)===0 || strpos($_POST['keywords'],$i)>0)
+            if(strpos($ps,$i)===0 || strpos($ps,$i)>0)
             {
-                $found=true;
-                $filterout++;
-                $tablehtml.="<tr'>";
-                $tablehtml.="<td>$ps</td>";
-                $tablehtml.="</tr>";
+                echo substr($fname,strlen($path),strlen($fname)-strlen($path))."::::".$f[$m]."\n";
+                $resnum++;
             }
         }
     }
-    $tablehtml.="</tbody></table>";
-    
-    if($found)
-    {
-        if($filterout<200){
-            echo '
-            <div class="col-sm-10 col-sm-offset-2 alert alert-success" role="alert">
-                <strong>搜索完成!</strong>
-                共有'.$filterout.'条结果
-            </div><br/><br/>
-            ';
-        }else{
-            echo '
-            <div class="col-sm-10 col-sm-offset-2 alert alert-warning" role="alert">
-                <strong>搜索完成!</strong>
-                共有'.$filterout.'条结果。请注意搜索结果上限为200条.
-            </div><br/><br/>
-            ';
-        }
-    echo $tablehtml;
-    }
-    else
-    {
-        echo '
-        <div class="col-sm-10 col-sm-offset-2 alert alert-danger" role="alert">
-            <strong>未找到记录</strong>
-            共有'.$filterout.'条结果
-        </div><br/><br/>
-        ';
-    }
-   
-    }
+    unset($f);
 }
-
 ?>
