@@ -9,7 +9,12 @@ Needed files not uploaded:
 
  
 # How does this work:
+<<<<<<< HEAD
 * Put the relavant files in the folder, the website will automaticly handler the files and present them to you. The first page works in mirroring /uestc/db => /uestc/faces , where the first folder contains a info.txt table, and the second folder contains massive pictures.
+=======
+* Put the relavant files in the folder, the website will automaticly handler the files and present them to you.
+* The first page works in mirroring /uestc/db => /uestc/faces , where the first folder contains a info.txt table, and the second folder contains massive pictures.
+>>>>>>> 40d2048b94c97bd65e92641a59a4df411392bd86
 * Put media files/folders (images/mp4) in /jdb/lib/ , this website is funcioned as an online player in form of a local filesystem explorer.
 * Put text files/folders in /sgk/db/ , it's an search engine of web interface.
 
