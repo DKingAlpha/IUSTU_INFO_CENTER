@@ -3,23 +3,52 @@
 
 function imgblock($imgurl)
 {
-$id=explode(".",explode("/",rtrim($imgurl))[1])[0];
-$blk='<img src="/uestc/'.rtrim($imgurl).'" class="img-rounded col-sm-6" data-toggle="modal" data-target="#'.$id.'" />
 
-<div class="modal fade" id="'.$id.'" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-    <div class="modal-content  col-sm-12">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times</button>
-        <h4 class="modal-title">详细图片</h4>
-    </div>
-    <div class="modal-body  col-sm-12">
-            <img src="/uestc/'.$imgurl.'" class="img-rounded col-sm-8  col-sm-offset-2" />
+if(!file_exists($imgurl))
+{
+    $imgurl="noimg.jpg";
+    $id=substr(hash("md5",rand(1,60000)),0,16);
+    $blk='<img src="/uestc/'.rtrim($imgurl).'" class="img-rounded col-sm-6" data-toggle="modal" data-target="#'.$id.'" />
+
+    <div class="modal fade" id="'.$id.'" role="dialog" aria-hidden="true">
+        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+        <div class="modal-dialog">
+        <div class="modal-content  col-sm-12">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times</button>
+            <h4 class="modal-title">无图片</h4>
+        </div>
+        <div class="modal-body  col-sm-12">
+                <h3 class=" col-sm-8  col-sm-offset-2">没有与本条数据对应的图片</h3>
+            </div>
+        </div>
         </div>
     </div>
+    ';
+    
+    
+}
+else
+{
+    $id=explode(".",explode("/",rtrim($imgurl))[1])[0];
+    $blk='<img src="/uestc/'.rtrim($imgurl).'" class="img-rounded col-sm-6" data-toggle="modal" data-target="#'.$id.'" />
+
+    <div class="modal fade" id="'.$id.'" role="dialog" aria-hidden="true">
+        <br/><br/><br/><br/><br/><br/><br/>
+        <div class="modal-dialog">
+        <div class="modal-content  col-sm-12">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times</button>
+            <h4 class="modal-title">详细图片</h4>
+        </div>
+        <div class="modal-body  col-sm-12">
+                <img src="/uestc/'.$imgurl.'" class="img-rounded col-sm-8  col-sm-offset-2" />
+            </div>
+        </div>
+        </div>
     </div>
-</div>
-';
+    ';
+}
 return $blk;
 }
 
@@ -51,11 +80,11 @@ if($_POST)
     $found = false;
 
     echo '<table class="col-sm-offset-1 table table-hover table-bordered">';
-    echo "<thead><tr><th>姓名</th><th>性别</th><th>学历</th><th>学号</th><th>身份证号</th><th>户籍</th><th>学院</th><th>专业</th><th>图片</th></tr></thead><tbody>";
+    echo '<thead><tr ><th style="text-align: center" >姓名</th><th style="text-align: center" >性别</th><th style="text-align: center" >学历</th><th style="text-align: center" >学号</th><th style="text-align: center" >身份证号</th><th style="text-align: center" >户籍</th><th style="text-align: center" >学院</th><th style="text-align: center" >专业</th><th style="text-align: center" >图片</th></tr></thead><tbody>';
 
     for($i=0; $i<$l&& $filterout<$pagelimit ; $i++)
     {
-        $ps=explode("\t",$f[$i]);
+        $ps=explode("\t",rtrim($f[$i]));
         
         $id=isset($_POST['id'])?$_POST['id']:false;
         $sid=isset($_POST['sid'])?$_POST['sid']:false;
@@ -117,12 +146,15 @@ if($_POST)
             else
                 echo "<td>".$ps[5];
             echo "</td><td>$ps[6]</td>";
-            if(strpos($ps[6],"0")==0)
+            if(strpos($ps[7],"0")==0)
                 echo "<td class='danger'>未知";
             else
-                echo "<td>".$ps[6];
-            echo "</td><td>".imgblock($ps[8])."</td>";
-            echo "</tr>";
+                echo "<td>".$ps[7];
+            if(file_exists($ps[8]))
+                echo '</td><td>';
+            else
+                echo '</td><td class="danger">';
+            echo imgblock($ps[8])."</td></tr>";
         }
 
     }

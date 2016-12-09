@@ -23,7 +23,6 @@ function search()
     if (xhr.readyState == 4) {
         if (xhr.status == 200) {
             text = xhr.responseText;
-            console.log(text);
             document.getElementById("result").innerHTML=text; 
             location.href="#result";
             }
