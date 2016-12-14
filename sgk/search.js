@@ -10,7 +10,6 @@ function sgksearch()
     document.getElementById("result").innerHTML=domtext; 
 
     (function getnextpage(){
-        console.log(1);
         if(num>500)return false;   // result sum uplimit = 1000
         var xhr=false;
         var postData="keywords="+document.getElementById("keywords").value;
