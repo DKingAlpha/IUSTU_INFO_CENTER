@@ -79,7 +79,7 @@ if(isset($_GET['url'])){
                                     <h4 class="modal-title">'.$file.'</h4>
                                 </div>
                                 <div class="modal-body  col-sm-12">
-                                    <video controls autoplay class="col-sm-8  col-sm-offset-2" >
+                                    <video controls class="col-sm-8  col-sm-offset-2" >
                                         <source src="/jdb/'.$resurl.'" type="video/mp4">
                                            此浏览器不支持HTML 5 video 标签
                                     </video>
@@ -96,7 +96,7 @@ if(isset($_GET['url'])){
                     if($colnum%6==0)$content_page.='</div><div class="row">';
                     $content_page.='
                     <div class="col-sm-2 thumbnail">
-                        <a href=""><img src="'.$docico.'" class="img-rounded"></img></a>
+                        <a href="/jdb/'.$resurl.'"><img src="'.$docico.'" class="img-rounded"></img></a>
                         <br/>
                         <h4>'.$file.'</h4>
                     </div>
