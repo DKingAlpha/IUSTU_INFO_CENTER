@@ -95,8 +95,8 @@ if(isset($_GET['url'])){
                 if(isDOC($resurl)||(isVideo($resurl)&&!isMP4($resurl))){
                     if($colnum%6==0)$content_page.='</div><div class="row">';
                     $content_page.='
-                    <div class="col-sm-2">
-                        <a href=""><img src='.$docico.'" class="img-rounded"></img></a>
+                    <div class="col-sm-2 thumbnail">
+                        <a href=""><img src="'.$docico.'" class="img-rounded"></img></a>
                         <br/>
                         <h4>'.$file.'</h4>
                     </div>
